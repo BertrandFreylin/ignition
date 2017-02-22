@@ -3,3 +3,23 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+#movie-list {
+    padding: 0px;
+}
+
+.movie {
+    height: 200px;
+    border-color: red;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.movie-container {
+    padding: 5px;
+}
+.container-fluid {
+    margin-top: 40px;
+}
