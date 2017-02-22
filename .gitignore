@@ -1,0 +1,4 @@
+*.pyc
+*migration*
+*idea*
+.idea/

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Ma page d'accueil{% endblock %}
+{% block content %}
+<script>
+    $(function() {
+      $("#tags").autocomplete({
+        source: "get_movies/",
+        minLength: 1,
+        select: function(event, ui) {
+            if(ui.item){
+                console.log(ui.item);
+                $('#tags').val(ui.item.value);
+            }
+            console.log('SUBMIT');
+            $.ajax({
+                url : "find_movies/", // the endpoint
+                type : "POST", // http method
+                data : { the_post : ui.item }, // data sent with the post request
+
+                // handle a successful response
+                success : function(json) {
+                    $('#post-text').val(''); // remove the value from the input
+                    console.log(json); // log the returned json to the console
+                    console.log("success"); // another sanity check
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        }
+      });
+    });
+</script>
+<div class="ui-widget movie-find">
+    <div class="input-group input-group-lg">
+        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span></span>
+        <input type="text" class="form-control" placeholder="Dernier film visionné..." id="tags" aria-describedby="sizing-addon1">
+    </div>
+</div>
+
+{% endblock %}
