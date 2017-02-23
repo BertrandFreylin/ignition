@@ -19,7 +19,6 @@ class Ratings(models.Model):
     user = models.IntegerField(name='userId')
     movie = models.ForeignKey(Movies, db_column='MovieId')
     rating = models.DecimalField(max_digits=2, decimal_places=1)
-    date = models.IntegerField()
 
 
 class GenomeTags(models.Model):

@@ -34,13 +34,20 @@ def find_movies(request):
     condition = reduce(operator.and_, [Q(genres__icontains=s) for s in movie_genres])
     first_level = Movies.objects.filter(condition).exclude(id=movie_id).all()
     tag_associated_movies = GenomeScores.objects.filter(movie_id=movie_id).select_related('tag')
-    links = Links.objects.filter(movie_id__in=[k.id for k in first_level[:10]]).all()
+    links = Links.objects.filter(movie_id__in=[k.id for k in first_level[:3]]).all()
     results = []
-    for movie in first_level[:10]:
+    for movie in first_level[:3]:
         movies_object = tmdb.Movies(int(links.get(movie_id=movie.id).tmdb)).info()
         movies_selected_json = {}
-        movies_selected_json['poster'] = 'https://image.tmdb.org/t/p/w500'+movies_object['poster_path']
+        movies_selected_json['backdrop_path'] = 'https://image.tmdb.org/t/p/w500' + movies_object['backdrop_path'] if movies_object['backdrop_path'] else ''
+        movies_selected_json['poster'] = 'https://image.tmdb.org/t/p/w500'+movies_object['poster_path'] if movies_object['poster_path'] else ''
         movies_selected_json['title'] = movies_object['title']
+        movies_selected_json['runtime'] = movies_object['runtime']
+        movies_selected_json['release_date'] = movies_object['release_date'].split('-')[0]
+        movies_selected_json['vote_average'] = movies_object['vote_average']
+        movies_selected_json['overview'] = movies_object['overview']
+        movies_selected_json['tmdb_path'] = 'https://www.themoviedb.org/movie/' + str(movies_object['id'])
+        movies_selected_json['imdb_path'] = 'http://www.imdb.com/title/' + str(movies_object['imdb_id']) if movies_object['imdb_id'] else ''
         results.append(movies_selected_json)
     data = json.dumps(results)
     mimetype = 'application/json'

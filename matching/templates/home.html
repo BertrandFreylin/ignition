@@ -7,42 +7,79 @@
         minLength: 1,
         select: function(event, ui) {
             if(ui.item){
-                console.log(ui.item);
                 $('#tags').val(ui.item.value);
             }
+            $('.mainNav').css('opacity', 0.2);
+            $('.movie-find').css('opacity', 0.2);
+            $('.container-fluid').css('opacity', 0.2);
+            $('#loading').css('display', 'block');
             $.ajax({
                 url : "find_movies/",
                 type : "POST",
                 data : { the_post : ui.item },
-
-
                 success : function(json) {
                     var total = '';
                     for (i = 0; i < json.length; i++) {
-                        total += '<div class="col-xs-12 col-md-6 col-lg-4 movie-container"><div class="movie">'+json[i]['title']+'<img border="0" alt="W3Schools" src="'+json[i]['poster']+'" width="100" height="100"></div></div>';
+                        total += '<div class="col-xs-12 col-md-6 col-lg-4 movie-container">';
+                        total += '<div class="col-xs-12 col-md-12 col-lg-12 panel panel-primary">';
+                        total += '<div class="panel-heading">'+json[i]['title']+'</div>';
+                        console.log(json[i]['backdrop_path']);
+                        total += "<div class='panel-body'; style=background-image:url(&quot;";
+                        total += json[i]['backdrop_path'];
+                        total += '");">';
+                        total += '<div class="col-xs-12 col-md-6 col-lg-6">';
+                        total += '<img border="0" alt="W3Schools" src="'+json[i]['poster']+'" width="auto" height="200px">';
+                        total += '</div>';
+                        total += '<div class="col-xs-12 col-md-6 col-lg-6 movie-container">';
+                        total += json[i]['title'];
+                        total += '<br>';
+                        total += json[i]['release_date'];
+                        total += '<br>';
+                        total += json[i]['vote_average'];
+                        //total += '<br>';
+                        //total += json[i]['overview'];
+                        total += '</div>';
+                        total += '</div>';
+                        total += '<div class="panel-footer" style="height:55px">';
+                        total += '<a href="'+json[i]['imdb_path']+'" class="btn btn-info" role="button" style="float:left">IMDB</a>';
+                        total += '<a href="'+json[i]['tmdb_path']+'" class="btn btn-info" role="button" style="float:right">TMDB</a>';
+                        total += '</div>';
+                        total += '</div>';
+                        total += '</div>';
                     }
                     $('#movie-list').html(total);
-
+                    $('#loading').css('display', 'none');
+                    $('.mainNav').css('opacity', 1);
+                    $('.movie-find').css('opacity', 1);
+                    $('.container-fluid').css('opacity', 1);
+                    $('#movie-result').css('display', 'block');
                 },
 
                 error : function(xhr,errmsg,err) {
-                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    $('#movie-list').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
                         " <a href='#' class='close'>&times;</a></div>");
-                    console.log(xhr.status + ": " + xhr.responseText);
+                    $('#loading').css('display', 'none');
+                    $('.mainNav').css('opacity', 1);
+                    $('.movie-find').css('opacity', 1);
+                    $('.container-fluid').css('opacity', 1);
+                    $('#movie-result').css('display', 'block');
                 }
             });
         }
       });
     });
 </script>
+<div id="loading">
+</div>
 <div class="ui-widget movie-find">
     <div class="input-group input-group-lg">
         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span></span>
         <input type="text" class="form-control" placeholder="Dernier film visionné..." id="tags" aria-describedby="sizing-addon1">
     </div>
 </div>
-<div class="container-fluid">
-    <div class="row" id="movie-list">
+<div class="container-fluid panel panel-success" id="movie-result">
+    <div class="panel-heading">Vous devriez aimer...</div>
+    <div class="row panel-body" id="movie-list">
     </div>
 </div>
 
