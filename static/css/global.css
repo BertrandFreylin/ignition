@@ -17,6 +17,10 @@
     padding: 10px;
 }
 
+#content {
+    padding: 5px;
+}
+
 #movie-result {
     display: none;
 }
@@ -57,4 +61,24 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.img-back {
+    position: absolute;
+    left: 0;
+    top: 41px;
+    width: 100%;
+    height: auto;
+    opacity: 0.3;
+    max-height: 230px;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.42;
+  border-radius: 15px;
 }

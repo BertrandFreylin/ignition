@@ -30,3 +30,13 @@ class GenomeScores(models.Model):
     movie = models.ForeignKey(Movies, db_column='MovieId')
     tag = models.ForeignKey(GenomeTags)
     relevance = models.CharField(max_length=255)
+
+
+class GlobalMovieTag(models.Model):
+    movie = models.ForeignKey(Movies, db_column='MovieId')
+    tag = models.CharField(max_length=255)
+
+
+class GlobalMovieRank(models.Model):
+    movie = models.ForeignKey(Movies, db_column='MovieId')
+    rating = models.DecimalField(max_digits=2, decimal_places=1)

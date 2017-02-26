@@ -23,21 +23,22 @@
                         total += '<div class="col-xs-12 col-md-6 col-lg-4 movie-container">';
                         total += '<div class="col-xs-12 col-md-12 col-lg-12 panel panel-primary">';
                         total += '<div class="panel-heading">'+json[i]['title']+'</div>';
-                        console.log(json[i]['backdrop_path']);
-                        total += "<div class='panel-body'; style=background-image:url(&quot;";
-                        total += json[i]['backdrop_path'];
-                        total += '");">';
+                        total += '<div class="panel-body">';
+                        if (json[i]['backdrop_path']!=''){
+                            total += '<img class="img-back" src="'+json[i]['backdrop_path']+'">';
+                        }
                         total += '<div class="col-xs-12 col-md-6 col-lg-6">';
                         total += '<img border="0" alt="W3Schools" src="'+json[i]['poster']+'" width="auto" height="200px">';
                         total += '</div>';
                         total += '<div class="col-xs-12 col-md-6 col-lg-6 movie-container">';
-                        total += json[i]['title'];
-                        total += '<br>';
-                        total += json[i]['release_date'];
-                        total += '<br>';
-                        total += json[i]['vote_average'];
-                        //total += '<br>';
-                        //total += json[i]['overview'];
+                        total += '<h3 style="font-weight:bold">'+json[i]['title']+'</h3>';
+                        total += '<h5 style="font-weight:bold">'+json[i]['release_date']+'</h5>';
+                        total += '<h5 style="font-weight:bold">'+json[i]['vote_average']+'  / 5 <span class="glyphicon glyphicon-star" aria-hidden="true"></span></h5>';
+                        total += '</div>';
+                        total += '</div>';
+                        total += '<div class="panel-body">';
+                        total += '<div class="col-xs-12 col-md-12 col-lg-12 ellipsis" style="height:80px;">';
+                        total += json[i]['overview'];
                         total += '</div>';
                         total += '</div>';
                         total += '<div class="panel-footer" style="height:55px">';
@@ -48,11 +49,12 @@
                         total += '</div>';
                     }
                     $('#movie-list').html(total);
+                    $('#movie-result').css('display', 'block');
+                    $('.ellipsis').dotdotdot();
                     $('#loading').css('display', 'none');
                     $('.mainNav').css('opacity', 1);
                     $('.movie-find').css('opacity', 1);
                     $('.container-fluid').css('opacity', 1);
-                    $('#movie-result').css('display', 'block');
                 },
 
                 error : function(xhr,errmsg,err) {
