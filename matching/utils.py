@@ -79,7 +79,6 @@ def reduce_tag():
         best_tag_listing = GenomeScores.objects.filter(movie_id=movie.id).select_related('tag').values_list('relevance','tag__tag').all()
         best_tag_movie = [k[1].lower() for k in sorted(best_tag_listing, key=lambda x: float(x[0]), reverse=True)[:4]]
         total_movie_tag = '|'.join(best_tag_movie) if best_tag_movie else movie.genres
-        print(total_movie_tag)
         GlobalMovieTag(movie_id=movie.id, tag=total_movie_tag).save()
 
 
